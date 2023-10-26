@@ -1,0 +1,1 @@
+export const API_HOST: string = process.env.REACT_APP_API_HOST || 'http://dev-api.host.com';

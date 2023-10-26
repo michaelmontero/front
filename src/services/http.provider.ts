@@ -37,4 +37,18 @@ export class Provider {
                 } as any);
             });
     }
+
+    protected delete<T>(endpoint: string, config: AxiosRequestConfig = {}): Promise<T> {
+        return this.axios
+            .delete<T>(endpoint, {
+                ...config
+            })
+            .then((res) => res.data)
+            .catch((err) => {
+                err = JSON.parse(JSON.stringify(err));
+                return Promise.resolve({
+                    error: { message: err?.message, status: err?.status, timestamp: new Date().getTime() }
+                } as any);
+            });
+    }
 }

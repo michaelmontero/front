@@ -17,6 +17,10 @@ export class GifProvider extends  Provider {
     public getSearchHistory() {
         return this.get(`${process.env.REACT_APP_BACK_API}/`);
     }
+   
+    public clearHistory() {
+        return this.delete(`${process.env.REACT_APP_BACK_API}/`);
+    }
 }
 
 export default new GifProvider();

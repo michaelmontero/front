@@ -1,4 +1,4 @@
-import { addSearchHistory, setGifs, setLoading, setSearchHistory } from '../reducers/app.reducer';
+import { addSearchHistory, resetSearchHistory, setGifs, setLoading, setSearchHistory } from '../reducers/app.reducer';
 import GifProvider from './../../services/gif.provider';
 
 export const get = (category?: string) => {
@@ -20,7 +20,7 @@ export const getSearchHistory = () => {
         try {
             dispatch(setLoading(false));
             const data = await GifProvider.getSearchHistory();
-            dispatch(setSearchHistory(data as string[]));
+            dispatch(setSearchHistory(data as any));
         } catch {
             console.log('Show error')
         } finally {
@@ -35,6 +35,20 @@ export const saveSearchHistory = (text: string) => {
             dispatch(setLoading(false));
             const data = await GifProvider.saveSearch(text);
             dispatch(addSearchHistory(data as any));
+        } catch {
+            console.log('Show error')
+        } finally {
+            dispatch(setLoading(false))
+        }
+    }
+}
+
+export const clearHistory = () => {
+    return async (dispatch: any) => {
+        try {
+            dispatch(setLoading(false));
+            const data = await GifProvider.clearHistory();
+            dispatch(resetSearchHistory());
         } catch {
             console.log('Show error')
         } finally {

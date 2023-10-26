@@ -6,7 +6,7 @@ export interface GlobalState {
     isInitialize: boolean;
     isLoading: boolean;
     gifs: GifData;
-    searchHistory: string[];
+    searchHistory: {id: string, text: string}[];
 }
 
 const initialState: GlobalState = {
@@ -36,15 +36,18 @@ export const appSlice = createSlice({
         setGifs: (state, data: PayloadAction<GifData>) => {
             state.gifs = data.payload;
         },
-        setSearchHistory: (state, data: PayloadAction<string[]>) => {
+        resetSearchHistory: (state) => {
+            state.searchHistory = [];
+        },
+        setSearchHistory: (state, data: PayloadAction<{id: string, text: string}[]>) => {
             state.searchHistory = data.payload;
         },
-        addSearchHistory: (state, data: PayloadAction<string>) => {
+        addSearchHistory: (state, data: PayloadAction<{id: string, text: string}>) => {
             state.searchHistory.push(data.payload);
         }
     }
 })
 
-export const { initialize, setLoading, setGifs, setSearchHistory, addSearchHistory } = appSlice.actions
+export const { initialize, setLoading, setGifs, setSearchHistory, resetSearchHistory, addSearchHistory } = appSlice.actions
 
 export default appSlice.reducer

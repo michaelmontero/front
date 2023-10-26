@@ -18,6 +18,7 @@ export const SearchGif = ({ onSearch }: SearchGifProps) => {
     const handleSearch = useCallback(() => {
         onSearch(text);
         dispatch(saveSearchHistory(text))
+        setText(''); 
     }, [onSearch, text, dispatch])
 
     return  <>

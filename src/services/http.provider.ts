@@ -5,8 +5,7 @@ export class Provider {
     private readonly axios: AxiosInstance;
 
     constructor(configInstance: AxiosRequestConfig<any>) {
-        this.axios = axios.create({
-            baseURL: API_HOST,
+        this.axios = axios.create({ 
             ...configInstance
         });
     }
@@ -15,9 +14,22 @@ export class Provider {
         return this.axios
             .get<T>(endpoint, {
                 ...config
-                // headers: { ...config.headers, Authorization: `Bearer ${Provider.token}`, 'x-company': Provider.companyId }
             })
-            .then((res) => res)
+            .then((res) => res.data)
+            .catch((err) => {
+                err = JSON.parse(JSON.stringify(err));
+                return Promise.resolve({
+                    error: { message: err?.message, status: err?.status, timestamp: new Date().getTime() }
+                } as any);
+            });
+    }
+
+    protected post<T>(endpoint: string, data: any, config: AxiosRequestConfig = {}): Promise<T> {
+        return this.axios
+            .post<T>(endpoint, data, {
+                ...config
+            })
+            .then((res) => res.data)
             .catch((err) => {
                 err = JSON.parse(JSON.stringify(err));
                 return Promise.resolve({
